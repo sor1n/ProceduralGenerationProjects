@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_procedural_image_creator" default="compile.module.procedural_image_creator">
+  <dirname property="module.procedural_image_creator.basedir" file="${ant.file.module_procedural_image_creator}"/>
+  
+  <property name="module.jdk.home.procedural_image_creator" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.procedural_image_creator" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.procedural_image_creator" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.procedural_image_creator" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="procedural_image_creator.output.dir" value="${module.procedural_image_creator.basedir}/out/production/Procedural Image Creator"/>
+  <property name="procedural_image_creator.testoutput.dir" value="${module.procedural_image_creator.basedir}/out/test/Procedural Image Creator"/>
+  
+  <path id="procedural_image_creator.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="procedural_image_creator.module.production.classpath">
+    <path refid="${module.jdk.classpath.procedural_image_creator}"/>
+  </path>
+  
+  <path id="procedural_image_creator.runtime.production.module.classpath">
+    <pathelement location="${procedural_image_creator.output.dir}"/>
+  </path>
+  
+  <path id="procedural_image_creator.module.classpath">
+    <path refid="${module.jdk.classpath.procedural_image_creator}"/>
+    <pathelement location="${procedural_image_creator.output.dir}"/>
+  </path>
+  
+  <path id="procedural_image_creator.runtime.module.classpath">
+    <pathelement location="${procedural_image_creator.testoutput.dir}"/>
+    <pathelement location="${procedural_image_creator.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.procedural_image_creator">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.procedural_image_creator">
+    <patternset refid="excluded.from.module.procedural_image_creator"/>
+  </patternset>
+  
+  <path id="procedural_image_creator.module.sourcepath">
+    <dirset dir="${module.procedural_image_creator.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.procedural_image_creator" depends="compile.module.procedural_image_creator.production,compile.module.procedural_image_creator.tests" description="Compile module Procedural Image Creator"/>
+  
+  <target name="compile.module.procedural_image_creator.production" depends="register.custom.compilers" description="Compile module Procedural Image Creator; production classes">
+    <mkdir dir="${procedural_image_creator.output.dir}"/>
+    <javac2 destdir="${procedural_image_creator.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.procedural_image_creator}/javac">
+      <compilerarg line="${compiler.args.procedural_image_creator}"/>
+      <bootclasspath refid="procedural_image_creator.module.bootclasspath"/>
+      <classpath refid="procedural_image_creator.module.production.classpath"/>
+      <src refid="procedural_image_creator.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.procedural_image_creator"/>
+    </javac2>
+    
+    <copy todir="${procedural_image_creator.output.dir}">
+      <fileset dir="${module.procedural_image_creator.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.procedural_image_creator.tests" depends="register.custom.compilers,compile.module.procedural_image_creator.production" description="compile module Procedural Image Creator; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.procedural_image_creator" description="cleanup module">
+    <delete dir="${procedural_image_creator.output.dir}"/>
+    <delete dir="${procedural_image_creator.testoutput.dir}"/>
+  </target>
+</project>
